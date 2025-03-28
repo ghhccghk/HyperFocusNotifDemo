@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
             val intent = Intent()
             intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"  // 设置 Action，跳转到应用详情页
             intent.data = Uri.fromParts("package", this.packageName, null)  // 指定要打开的应用包名
-            val actions = FocusApi.ActionInfo(actionsIntent = intent, actionsTitle = "test")
+            val actions = FocusApi.ActionInfo(actionsIntent = intent, actionsTitle = "test", actionTitleColor = "#FFFFFF")
             val baseInfo = FocusApi.baseinfo(title = "title", colorTitle = "#FFFFFF",
                 basetype = 1, content = "content", colorContent = "#FFFFFF", subContent = "subContent",
                 colorSubContent = "#FFFFFF", extraTitle = "extraTitle", colorExtraTitle = "#FFFFFF",
