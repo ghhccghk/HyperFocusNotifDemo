@@ -47,19 +47,18 @@ class MainActivity : ComponentActivity() {
                 subTitle = "subTitle", colorsubTitle = "#FFFFFF",
                 specialTitle = "special", colorSpecialTitle = "#FFFFFF",)
             val hintInfo = FocusApi.HintInfo(type = 1 ,titleLineCount = 6,title = "这是Hint里的title", colortitle = "#FFFFFF" , content = "content",  colorContent = "#FFFFFF", actionInfo = actions)
-            val api = FocusApi.sendFocus(
+           FocusApi.sendFocus(
                 title = "测试",
                 baseInfo = baseInfo,
                 hintInfo = hintInfo,
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
-                picmarkv2 = Icon.createWithResource(this,R.drawable.wdlyjz),
+                picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
-                picmarkv2type = 2,
+                picInfotype = 2,
                 builder = sendNotification,
                 ticker = "ticker测试",
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
-            sendNotification.addExtras(api)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -70,23 +69,26 @@ class MainActivity : ComponentActivity() {
         container.addView(chatInfoandhintInfo.getView())
         chatInfoandhintInfo.getView().setOnClickListener {
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
-            val chatinfo = FocusApi.chatinfo(title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
+            val picProfiles = FocusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pics = Bundle()
+            pics.putAll(picProfiles)
+            val chatinfo = FocusApi.chatinfo(
+                picProfile = "miui.focus.pic_pro",title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
             val hintInfo = FocusApi.HintInfo(type = 1 ,title = "发送时间",
                 colortitle = "#FFFFFF" , content = "7分钟前",colorContent = "#FFFFFF" )
-            val api = FocusApi.sendFocus(
+            FocusApi.sendFocus(
                 title = "莱卡恩",
                 chatinfo = chatinfo,
+                addpics = pics,
                 hintInfo = hintInfo,
                 builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picticker = Icon.createWithResource(this,R.drawable.lycaon_icon),
-                picmarkv2 = Icon.createWithResource(this,R.drawable.wdlyjz),
+                picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
-                picmarkv2type = 2,
-                picProfile = Icon.createWithResource(this,R.drawable.lycaon_icon)
+                picInfotype = 2,
             )
-            sendNotification.addExtras(api)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -97,25 +99,27 @@ class MainActivity : ComponentActivity() {
         container.addView(highlightInfoandhintInfo.getView())
         highlightInfoandhintInfo.getView().setOnClickListener {
             val system = System.currentTimeMillis()
+            val picProfiles = FocusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pics = Bundle()
+            pics.putAll(picProfiles)
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
             val timeout = FocusApi.timerInfo(timerWhen = time, timerSystemCurrent = system, timerType = 1 )
-            val highlightInfo = FocusApi.highlightInfo(colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
+            val highlightInfo = FocusApi.highlightInfo(picFunction = "miui.focus.pic_pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
             val hintInfo = FocusApi.HintInfo(type = 1 ,title = "title",
                 colortitle = "#FFFFFF" , content = "content",colorContent = "#FFFFFF" )
-            val api = FocusApi.sendFocus(
+            FocusApi.sendFocus(
                 title = "莱卡恩",
+                addpics = pics,
                 highlightInfo = highlightInfo,
                 hintInfo = hintInfo,
                 builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
-                picmarkv2 = Icon.createWithResource(this,R.drawable.wdlyjz),
-                picFunction = Icon.createWithResource(this,R.drawable.lycaon_icon),
+                picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
-                picmarkv2type = 2,
+                picInfotype = 2,
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
-            sendNotification.addExtras(api)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -136,10 +140,9 @@ class MainActivity : ComponentActivity() {
                 builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
-                picmarkv2 = Icon.createWithResource(this,R.drawable.wdlyjz),
-                picFunction = Icon.createWithResource(this,R.drawable.lycaon_icon),
+                picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
-                picmarkv2type = 2,
+                picInfotype = 2,
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
             sendNotification.addExtras(api)
@@ -153,19 +156,22 @@ class MainActivity : ComponentActivity() {
         container.addView(ProgressInfoandchatInfo.getView())
         ProgressInfoandchatInfo.getView().setOnClickListener {
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
+            val picProfiles = FocusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pics = Bundle()
+            pics.putAll(picProfiles)
             val ProgressInfo =  FocusApi.ProgressInfo(progress = 20, colorProgress ="#000000", colorProgressEnd = "#FA5FFF")
-            val chatinfo = FocusApi.chatinfo(title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
+            val chatinfo = FocusApi.chatinfo(picProfile = "miui.focus.pic_pro", title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
             val api = FocusApi.sendFocus(
                 title = "莱卡恩",
+                addpics = pics,
                 ProgressInfo = ProgressInfo,
                 chatinfo = chatinfo,
                 builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
-                picmarkv2 = Icon.createWithResource(this,R.drawable.wdlyjz),
-                picProfile = Icon.createWithResource(this,R.drawable.lycaon_icon),
+                picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
-                picmarkv2type = 2,
+                picInfotype = 2,
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
             sendNotification.addExtras(api)
@@ -179,21 +185,24 @@ class MainActivity : ComponentActivity() {
         container.addView(ProgressInfoandhighlightInfo.getView())
         ProgressInfoandhighlightInfo.getView().setOnClickListener {
             val system = System.currentTimeMillis()
+            val picProfiles = FocusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pics = Bundle()
+            pics.putAll(picProfiles)
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
             val timeout = FocusApi.timerInfo(timerWhen = time, timerSystemCurrent = system, timerType = 1 )
-            val highlightInfo = FocusApi.highlightInfo(colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
+            val highlightInfo = FocusApi.highlightInfo(picFunction = "miui.focus.pic_pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
             val ProgressInfo =  FocusApi.ProgressInfo(progress = 20, colorProgress ="#000000", colorProgressEnd = "#FA5FFF")
             val api = FocusApi.sendFocus(
                 title = "莱卡恩",
+                addpics = pics,
                 ProgressInfo = ProgressInfo,
                 highlightInfo = highlightInfo,
                 builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
-                picmarkv2 = Icon.createWithResource(this,R.drawable.wdlyjz),
-                picProfile = Icon.createWithResource(this,R.drawable.lycaon_icon),
+                picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
-                picmarkv2type = 2,
+                picInfotype = 2,
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
             sendNotification.addExtras(api)
