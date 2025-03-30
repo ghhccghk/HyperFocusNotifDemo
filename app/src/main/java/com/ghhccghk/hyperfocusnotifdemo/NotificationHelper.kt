@@ -4,6 +4,7 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.widget.TextView
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.ghhccghk.hyperfocusnotifdemo.R
@@ -34,12 +35,18 @@ class NotificationHelper(private val context: Context) {
 
     // 发送通知
     fun sendNotification(title: String, message: String): NotificationCompat.Builder {
+        val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(title)
+            .setSubText(message)
+            .setTicker(message)
+            .setOngoing(true) // 设置为常驻通知
             .setContentText(message)
-            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
-            .setAutoCancel(true)  // 点击后自动取消
+            .setPriority(NotificationCompat.PRIORITY_MIN)
+            PendingIntent.getActivity(
+                context, 0, launchIntent, PendingIntent.FLAG_MUTABLE
+            )
         return builder
     }
 }
