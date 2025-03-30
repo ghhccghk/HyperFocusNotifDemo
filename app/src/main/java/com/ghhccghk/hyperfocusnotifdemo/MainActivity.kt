@@ -6,11 +6,13 @@ import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
 import android.widget.LinearLayout
+import android.widget.RemoteViews
 import android.widget.Toolbar
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.NotificationManagerCompat
 import com.hyperfocus.api.FocusApi
+import org.json.JSONObject
 
 class MainActivity : ComponentActivity() {
 
@@ -47,18 +49,19 @@ class MainActivity : ComponentActivity() {
                 subTitle = "subTitle", colorsubTitle = "#FFFFFF",
                 specialTitle = "special", colorSpecialTitle = "#FFFFFF",)
             val hintInfo = FocusApi.HintInfo(type = 1 ,titleLineCount = 6,title = "这是Hint里的title", colortitle = "#FFFFFF" , content = "content",  colorContent = "#FFFFFF", actionInfo = actions)
-           FocusApi.sendFocus(
+            val api = FocusApi.sendFocus(
                 title = "测试",
                 baseInfo = baseInfo,
                 hintInfo = hintInfo,
+               enableFloat = true,
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
                 picInfotype = 2,
-                builder = sendNotification,
                 ticker = "ticker测试",
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
+            sendNotification.addExtras(api)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -73,15 +76,15 @@ class MainActivity : ComponentActivity() {
             val pics = Bundle()
             pics.putAll(picProfiles)
             val chatinfo = FocusApi.chatinfo(
-                picProfile = "miui.focus.pic_pro",title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
+                picProfile = "pro",title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
             val hintInfo = FocusApi.HintInfo(type = 1 ,title = "发送时间",
                 colortitle = "#FFFFFF" , content = "7分钟前",colorContent = "#FFFFFF" )
-            FocusApi.sendFocus(
+            val api = FocusApi.sendFocus(
                 title = "莱卡恩",
                 chatinfo = chatinfo,
                 addpics = pics,
+                enableFloat = true,
                 hintInfo = hintInfo,
-                builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picticker = Icon.createWithResource(this,R.drawable.lycaon_icon),
@@ -89,6 +92,7 @@ class MainActivity : ComponentActivity() {
                 picbgtype = 2,
                 picInfotype = 2,
             )
+            sendNotification.addExtras(api)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -104,15 +108,15 @@ class MainActivity : ComponentActivity() {
             pics.putAll(picProfiles)
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
             val timeout = FocusApi.timerInfo(timerWhen = time, timerSystemCurrent = system, timerType = 1 )
-            val highlightInfo = FocusApi.highlightInfo(picFunction = "miui.focus.pic_pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
+            val highlightInfo = FocusApi.highlightInfo(picFunction = "pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
             val hintInfo = FocusApi.HintInfo(type = 1 ,title = "title",
                 colortitle = "#FFFFFF" , content = "content",colorContent = "#FFFFFF" )
-            FocusApi.sendFocus(
+            val api = FocusApi.sendFocus(
                 title = "莱卡恩",
                 addpics = pics,
+                enableFloat = true,
                 highlightInfo = highlightInfo,
                 hintInfo = hintInfo,
-                builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
@@ -120,6 +124,7 @@ class MainActivity : ComponentActivity() {
                 picInfotype = 2,
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
+            sendNotification.addExtras(api)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -137,7 +142,7 @@ class MainActivity : ComponentActivity() {
                 title = "莱卡恩",
                 ProgressInfo = ProgressInfo,
                 baseInfo = baseInfo,
-                builder = sendNotification,
+                enableFloat = true,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
@@ -160,13 +165,13 @@ class MainActivity : ComponentActivity() {
             val pics = Bundle()
             pics.putAll(picProfiles)
             val ProgressInfo =  FocusApi.ProgressInfo(progress = 20, colorProgress ="#000000", colorProgressEnd = "#FA5FFF")
-            val chatinfo = FocusApi.chatinfo(picProfile = "miui.focus.pic_pro", title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
+            val chatinfo = FocusApi.chatinfo(picProfile = "pro", title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
             val api = FocusApi.sendFocus(
                 title = "莱卡恩",
                 addpics = pics,
+                enableFloat = true,
                 ProgressInfo = ProgressInfo,
                 chatinfo = chatinfo,
-                builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
@@ -195,9 +200,9 @@ class MainActivity : ComponentActivity() {
             val api = FocusApi.sendFocus(
                 title = "莱卡恩",
                 addpics = pics,
+                enableFloat = true,
                 ProgressInfo = ProgressInfo,
                 highlightInfo = highlightInfo,
-                builder = sendNotification,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
@@ -206,6 +211,32 @@ class MainActivity : ComponentActivity() {
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
             sendNotification.addExtras(api)
+            NotificationManagerCompat.from(this).notify(1, sendNotification.build())
+        }
+
+        val test = Preferences(this)
+        test.setTitle("测试自定义焦点通知")
+        test.setSummary("")
+        container.addView(test.getView())
+        test.getView().setOnClickListener {
+            val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
+            val remoteViews = RemoteViews(this.packageName, R.layout.test_layout)
+            remoteViews.setTextViewText(R.id.textView, "绳匠阁下，冒昧的打扰您了")
+            remoteViews.setImageViewResource(R.id.imageView, R.drawable.lycaon_icon)
+            val focus = FocusApi.diyFocus(
+                rv = remoteViews,
+                rvAod = remoteViews,
+                rvNight = remoteViews,
+                rvtiny = remoteViews,
+                rvdecoland = remoteViews,
+                rvtinyNight = remoteViews,
+                rvdecoport = remoteViews,
+                rvdecolandNight = remoteViews,
+                rvdecoportNight = remoteViews,
+                ticker = "绳匠阁下，冒昧的打扰您了",
+                enableFloat = true,
+                picticker = Icon.createWithResource(this,R.drawable.lycaon_icon),)
+            sendNotification.addExtras(focus)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
     }

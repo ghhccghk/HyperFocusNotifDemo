@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@android:color/transparent"
+    android:orientation="horizontal"
+    android:padding="1dp"
+    android:gravity="center_vertical">  <!-- 让子控件在父布局中垂直居中 -->
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:breakStrategy="high_quality"
+        android:ellipsize="end"
+        android:lineSpacingExtra="4dp"
+        android:maxLines="5"
+        android:textSize="20sp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:importantForAccessibility="no"
+        app:srcCompat="@drawable/lycaon_icon"
+        tools:ignore="HardcodedText" />
+</LinearLayout>
