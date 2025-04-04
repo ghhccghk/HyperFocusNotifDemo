@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="focus_notify_part_bg_width">160.0dp</dimen>
+    <dimen name="focus_notify_extend_height">120.0dp</dimen>
+</resources>
