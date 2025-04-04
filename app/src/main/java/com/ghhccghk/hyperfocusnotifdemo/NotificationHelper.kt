@@ -39,9 +39,7 @@ class NotificationHelper(private val context: Context) {
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(title)
-            .setSubText(message)
-            .setTicker(message)
-            .setOngoing(true) // 设置为常驻通知
+            .setOngoing(false) // 设置为常驻通知
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_MIN)
             PendingIntent.getActivity(

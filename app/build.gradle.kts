@@ -63,4 +63,6 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.hyperfocusapi)
     implementation(libs.material)
+    implementation(libs.androidx.palette)
+
 }
