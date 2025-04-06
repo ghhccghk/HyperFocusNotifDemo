@@ -5,6 +5,7 @@ import android.content.Intent
 import android.graphics.drawable.Icon
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.RemoteViews
 import android.widget.Toolbar
@@ -12,9 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.NotificationManagerCompat
 import com.ghhccghk.hyperfocusnotifdemo.tools.FocusBgHelper.createPartBg
-import com.hyperfocus.api.FocusApi
-import org.json.JSONObject
-
+import com.hyperfocus.api.*
 
 class MainActivity : ComponentActivity() {
 
@@ -32,6 +31,7 @@ class MainActivity : ComponentActivity() {
         setActionBar(toolbar)
         setContentView(R.layout.activity_main)
         val container = findViewById<LinearLayout>(R.id.root_container)
+
         // 带有baseInfo和hintInfo的通知
         val newView = Preferences(this)
         newView.setTitle("带有baseInfo和hintInfo的通知，并设置背景和边上小图标")
@@ -44,18 +44,27 @@ class MainActivity : ComponentActivity() {
             val intent = Intent()
             intent.action = "android.settings.APPLICATION_DETAILS_SETTINGS"  // 设置 Action，跳转到应用详情页
             intent.data = Uri.fromParts("package", this.packageName, null)  // 指定要打开的应用包名
+            val picProfiles = focusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pics = Bundle()
+            pics.putAll(picProfiles)
             val actions = focusApi.actionInfo(actionsIntent = intent, actionsTitle = "test", actionTitleColor = "#FFFFFF")
             val baseInfo = focusApi.baseinfo(title = "title", colorTitle = "#FFFFFF",
                 basetype = 1, content = "content", colorContent = "#FFFFFF", subContent = "subContent",
                 colorSubContent = "#FFFFFF", extraTitle = "extraTitle", colorExtraTitle = "#FFFFFF",
                 subTitle = "subTitle", colorsubTitle = "#FFFFFF",
-                specialTitle = "special", colorSpecialTitle = "#FFFFFF",)
-            val hintInfo = focusApi.hintInfo(type = 1 ,titleLineCount = 6,title = "这是Hint里的title", colortitle = "#FFFFFF" , content = "content",  colorContent = "#FFFFFF", actionInfo = actions)
+                specialTitle = "special", colorSpecialTitle = "#FFFFFF",
+                picFunction = "pro")
+            val hintInfo = focusApi.hintInfo(type = 1 ,
+                titleLineCount = 6,
+                title = "这是Hint里的title", colortitle = "#FFFFFF" ,
+                content = "content",  colorContent = "#FFFFFF",
+                actionInfo = actions)
             val api = focusApi.sendFocus(
                 title = "测试",
                 baseInfo = baseInfo,
                 hintInfo = hintInfo,
-               enableFloat = true,
+                addpics = pics,
+                 enableFloat = true,
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
@@ -78,7 +87,8 @@ class MainActivity : ComponentActivity() {
             val pics = Bundle()
             pics.putAll(picProfiles)
             val chatinfo = focusApi.chatinfo(
-                picProfile = "pro",title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
+                picProfile = "pro",title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了",
+                colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
             val hintInfo = focusApi.hintInfo(type = 1 ,title = "发送时间",
                 colortitle = "#FFFFFF" , content = "7分钟前",colorContent = "#FFFFFF" )
             val api = focusApi.sendFocus(
@@ -110,7 +120,8 @@ class MainActivity : ComponentActivity() {
             pics.putAll(picProfiles)
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
             val timeout = focusApi.timerInfo(timerWhen = time, timerSystemCurrent = system, timerType = 1 )
-            val highlightInfo = focusApi.highlightInfo(picFunction = "pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
+            val highlightInfo = focusApi.highlightInfo(picFunction = "pro", colorTitle = "#FFFFFF",
+                timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
             val hintInfo = focusApi.hintInfo(type = 1 ,title = "title",
                 colortitle = "#FFFFFF" , content = "content",colorContent = "#FFFFFF" )
             val api = focusApi.sendFocus(
@@ -137,7 +148,7 @@ class MainActivity : ComponentActivity() {
         container.addView(ProgressInfoandhintInfo.getView())
         ProgressInfoandhintInfo.getView().setOnClickListener {
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
-            val progressInfo =  focusApi.progressInfo(progress = 20, colorProgress ="#000000", colorProgressEnd = "#FA5FFF")
+            val progressInfo =  focusApi.progressInfo(progress = 20, colorProgress ="#FA5FFF")
             val baseInfo = focusApi.baseinfo(title = "title",
                 colorTitle = "#FFFFFF" , content = "content",colorContent = "#FFFFFF" )
             val api = focusApi.sendFocus(
@@ -166,7 +177,7 @@ class MainActivity : ComponentActivity() {
             val picProfiles = focusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
             val pics = Bundle()
             pics.putAll(picProfiles)
-            val ProgressInfo =  focusApi.progressInfo(progress = 20, colorProgress ="#000000", colorProgressEnd = "#FA5FFF")
+            val ProgressInfo =  focusApi.progressInfo(progress = 20, colorProgress = "#FA5FFF")
             val chatinfo = focusApi.chatinfo(picProfile = "pro", title = "莱卡恩", content = "绳匠阁下，冒昧的打扰您了", colortitle = "#FFFFFF", colorcontent = "#FFFFFF")
             val api = focusApi.sendFocus(
                 title = "莱卡恩",
@@ -187,7 +198,7 @@ class MainActivity : ComponentActivity() {
 
         // 带有ProgressInfo和highlightInfo的通知
         val ProgressInfoandhighlightInfo = Preferences(this)
-        ProgressInfoandhighlightInfo.setTitle("带有ProgressInfo和highlightInfo的通知，并设置背景和边上小图标,无subContent前的小图标")
+        ProgressInfoandhighlightInfo.setTitle("带有ProgressInfo和highlightInfo的通知，并设置背景和边上小图标")
         ProgressInfoandhighlightInfo.setSummary("")
         container.addView(ProgressInfoandhighlightInfo.getView())
         ProgressInfoandhighlightInfo.getView().setOnClickListener {
@@ -197,7 +208,7 @@ class MainActivity : ComponentActivity() {
             pics.putAll(picProfiles)
             val sendNotification = NotificationHelper.sendNotification("莱卡恩", "绳匠阁下，冒昧的打扰您了")
             val timeout = focusApi.timerInfo(timerWhen = time, timerSystemCurrent = system, timerType = 1 )
-            val highlightInfo = focusApi.highlightInfo(picFunction = "miui.focus.pic_pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
+            val highlightInfo = focusApi.highlightInfo(picFunction = "pro", colorTitle = "#FFFFFF", timerInfo = timeout, subContent = "前打开了应用", colorSubContent = "#FFFFFF")
             val ProgressInfo =  focusApi.progressInfo(progress = 20, colorProgress ="#000000", colorProgressEnd = "#FA5FFF")
             val api = focusApi.sendFocus(
                 title = "莱卡恩",
