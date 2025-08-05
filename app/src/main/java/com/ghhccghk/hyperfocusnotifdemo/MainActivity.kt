@@ -13,12 +13,12 @@ import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
 import androidx.core.app.NotificationManagerCompat
 import com.ghhccghk.hyperfocusnotifdemo.tools.FocusBgHelper.createPartBg
-import com.hyperfocus.api.*
+import com.hyperfocus.api.FocusApi
 
 class MainActivity : ComponentActivity() {
 
     //初始化Api
-    val focusApi = FocusApi()
+    val focusApi = FocusApi
     var time : Long = 1
 
     @androidx.annotation.RequiresPermission(android.Manifest.permission.POST_NOTIFICATIONS)
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
             val picProfiles = focusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
             val pics = Bundle()
             pics.putAll(picProfiles)
-            val actions = focusApi.actionInfo(actionsIntent = intent, actionsTitle = "test", actionTitleColor = "#FFFFFF")
+            val actions = focusApi.actionInfo(actionIntent = intent, actionTitle = "test", actionTitleColor = "#FFFFFF")
             val baseInfo = focusApi.baseinfo(title = "title", colorTitle = "#FFFFFF",
                 basetype = 1, content = "content", colorContent = "#FFFFFF", subContent = "subContent",
                 colorSubContent = "#FFFFFF", extraTitle = "extraTitle", colorExtraTitle = "#FFFFFF",
