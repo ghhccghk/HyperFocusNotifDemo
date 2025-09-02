@@ -273,7 +273,7 @@ class MainActivity : ComponentActivity() {
                 picInfo = pic
             )
 
-            val bigIslandArea = IslandApi.BigIslandAreaToJson(
+            val bigIslandArea = IslandApi.BigIslandArea(
                 imageTextInfoLeft = a,
                 imageTextInfoRight = b,
                 textInfo = textInfo
