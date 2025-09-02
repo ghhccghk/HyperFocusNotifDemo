@@ -1,6 +1,7 @@
 package com.ghhccghk.hyperfocusnotifdemo
 
 import NotificationHelper
+import android.annotation.SuppressLint
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.net.Uri
@@ -14,6 +15,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.core.app.NotificationManagerCompat
 import com.ghhccghk.hyperfocusnotifdemo.tools.FocusBgHelper.createPartBg
 import com.hyperfocus.api.FocusApi
+import com.hyperfocus.api.IslandApi
 
 class MainActivity : ComponentActivity() {
 
@@ -64,7 +66,7 @@ class MainActivity : ComponentActivity() {
                 baseInfo = baseInfo,
                 hintInfo = hintInfo,
                 addpics = pics,
-                 enableFloat = true,
+                enableFloat = true,
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
                 picbgtype = 2,
@@ -72,7 +74,10 @@ class MainActivity : ComponentActivity() {
                 ticker = "ticker测试",
                 picticker = Icon.createWithResource(this,R.drawable.ic_launcher_foreground)
             )
-            sendNotification.addExtras(api)
+            val a = Bundle()
+            a.putString("miui.effect.src","true")
+            a.putAll(api)
+            sendNotification.addExtras(a)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
 
@@ -237,16 +242,64 @@ class MainActivity : ComponentActivity() {
             remoteViews.setTextViewText(R.id.textView, "绳匠阁下，冒昧的打扰您了")
             remoteViews.setImageViewResource(R.id.imageView, R.drawable.lycaon_icon)
             createPartBg(this,Icon.createWithResource(this,R.drawable.lycaon_bg_2),remoteViews)
+            val picProfiles = focusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pics = Bundle()
+            pics.putAll(picProfiles)
+
+            val pic = IslandApi.PicInfo(
+                autoplay = true,
+                pic = "miui.focus.pic_pro"
+            )
+            val textInfo = IslandApi.TextInfo(
+                turnAnim = true,
+                showHighlightColor = false,
+                content = "绳匠阁下，冒昧的打扰您了",
+                title = "莱卡恩"
+            )
+            val textInfoa = IslandApi.TextInfo(
+                isTitleDigit = true,
+                turnAnim = true,
+                showHighlightColor = true,
+                title = "绳匠阁下，冒昧的打扰您了"
+            )
+            val a = IslandApi.ImageTextInfo(
+                textInfo = textInfo,
+                type = 1,
+                picInfo = pic
+            )
+            val b = IslandApi.ImageTextInfo(
+                textInfo = textInfoa,
+                type = 2,
+                picInfo = pic
+            )
+
+            val bigIslandArea = IslandApi.BigIslandAreaToJson(
+                imageTextInfoLeft = a,
+                imageTextInfoRight = b,
+                textInfo = textInfo
+            )
+            val smallIslandArea = IslandApi.SmallIslandArea(
+                picInfo = pic
+            )
+
+            val islandTemplate = IslandApi.IslandTemplate(
+                highlightColor = "#FF47FF",
+                bigIslandArea = bigIslandArea,
+                smallIslandArea = smallIslandArea,
+                expandedTime = 300
+            )
             val focus = focusApi.senddiyFocus(
                 rv = remoteViews,
                 rvNight = remoteViews,
+                island = islandTemplate,
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 enableFloat = false,
-                picticker = Icon.createWithResource(this,R.drawable.lycaon_icon),)
+                picticker = Icon.createWithResource(this,R.drawable.lycaon_icon),
+                addpics = pics)
+
             sendNotification.addExtras(focus)
             NotificationManagerCompat.from(this).notify(1, sendNotification.build())
         }
     }
-
 
 }

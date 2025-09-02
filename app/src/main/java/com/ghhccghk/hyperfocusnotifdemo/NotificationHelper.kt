@@ -1,3 +1,4 @@
+import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -34,6 +35,7 @@ class NotificationHelper(private val context: Context) {
     }
 
     // 发送通知
+    @SuppressLint("SuspiciousIndentation")
     fun sendNotification(title: String, message: String): NotificationCompat.Builder {
         val launchIntent = context.packageManager.getLaunchIntentForPackage(context.packageName)
         val builder = NotificationCompat.Builder(context, CHANNEL_ID)
