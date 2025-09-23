@@ -6,12 +6,11 @@ plugins {
 
 android {
     namespace = "com.ghhccghk.hyperfocusnotifdemo"
-    compileSdk = 35
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.ghhccghk.hyperfocusnotifdemo"
         minSdk = 34
-        targetSdk = 35
         versionCode = 2
         versionName = "1.1"
         ndk.abiFilters += arrayOf("arm64-v8a", "armeabi-v7a", "x86", "x86_64")

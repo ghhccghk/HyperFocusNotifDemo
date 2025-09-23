@@ -16,6 +16,7 @@ import androidx.core.app.NotificationManagerCompat
 import com.ghhccghk.hyperfocusnotifdemo.tools.FocusBgHelper.createPartBg
 import com.hyperfocus.api.FocusApi
 import com.hyperfocus.api.IslandApi
+import org.json.JSONObject
 
 class MainActivity : ComponentActivity() {
 
@@ -63,6 +64,7 @@ class MainActivity : ComponentActivity() {
                 actionInfo = actions)
             val api = focusApi.sendFocus(
                 title = "测试",
+                cancel = false,
                 baseInfo = baseInfo,
                 hintInfo = hintInfo,
                 addpics = pics,
@@ -98,6 +100,7 @@ class MainActivity : ComponentActivity() {
                 colortitle = "#FFFFFF" , content = "7分钟前",colorContent = "#FFFFFF" )
             val api = focusApi.sendFocus(
                 title = "莱卡恩",
+                cancel = false,
                 chatinfo = chatinfo,
                 addpics = pics,
                 enableFloat = true,
@@ -130,11 +133,15 @@ class MainActivity : ComponentActivity() {
             val hintInfo = focusApi.hintInfo(type = 1 ,title = "title",
                 colortitle = "#FFFFFF" , content = "content",colorContent = "#FFFFFF" )
             val api = focusApi.sendFocus(
+                isShowNotification = true,
                 title = "莱卡恩",
                 addpics = pics,
                 enableFloat = true,
-                highlightInfo = highlightInfo,
-                hintInfo = hintInfo,
+                cancel = false,
+                coverInfo = focusApi.coverInfo(
+                    title = "绳匠阁下，冒昧的打扰您了" ,
+                    picCover = "miui.focus.pic_pro"
+                ),
                 ticker = "绳匠阁下，冒昧的打扰您了",
                 picbg = Icon.createWithResource(this,R.drawable.lycaon_bg_2),
                 picInfo = Icon.createWithResource(this,R.drawable.wdlyjz),
@@ -158,7 +165,9 @@ class MainActivity : ComponentActivity() {
                 colorTitle = "#FFFFFF" , content = "content",colorContent = "#FFFFFF" )
             val api = focusApi.sendFocus(
                 title = "莱卡恩",
-                progressInfo = progressInfo,
+                cancel = false,
+//                progressInfo = progressInfo,
+                multiProgressInfo = JSONObject().put("progress",88).put("points",4).put("color","#FA5FFF"),
                 baseInfo = baseInfo,
                 enableFloat = true,
                 ticker = "绳匠阁下，冒昧的打扰您了",
@@ -188,6 +197,7 @@ class MainActivity : ComponentActivity() {
                 title = "莱卡恩",
                 addpics = pics,
                 enableFloat = true,
+                cancel = false,
                 progressInfo = ProgressInfo,
                 chatinfo = chatinfo,
                 ticker = "绳匠阁下，冒昧的打扰您了",
@@ -218,6 +228,7 @@ class MainActivity : ComponentActivity() {
             val api = focusApi.sendFocus(
                 title = "莱卡恩",
                 addpics = pics,
+                cancel = false,
                 enableFloat = true,
                 progressInfo = ProgressInfo,
                 highlightInfo = highlightInfo,
@@ -243,43 +254,77 @@ class MainActivity : ComponentActivity() {
             remoteViews.setImageViewResource(R.id.imageView, R.drawable.lycaon_icon)
             createPartBg(this,Icon.createWithResource(this,R.drawable.lycaon_bg_2),remoteViews)
             val picProfiles = focusApi.addpics("pro",Icon.createWithResource(this,R.drawable.lycaon_icon))
+            val pica = focusApi.addpics("abc",Icon.createWithResource(this,R.drawable.img))
             val pics = Bundle()
             pics.putAll(picProfiles)
+            pics.putAll(pica)
+            val system = System.currentTimeMillis()
+            val timeout = IslandApi.TimerInfo(timerWhen = time, timerSystemCurrent = system, timerType = 1 )
 
-            val pic = IslandApi.PicInfo(
+            val pic = IslandApi.picInfo(
                 autoplay = true,
-                pic = "miui.focus.pic_pro"
+                effectColor = "#33B5E5",
+                effectSrc = "inEffectSrc",
+                pic = "pro"
+            )
+            val pic1 = IslandApi.picInfo(
+                autoplay = true,
+                loop = true,
+                type = 2,
+                number = 99,
+                effectColor = "#33B5E5",
+                effectSrc = "inEffectSrc",
+                pic = "musicWave",
             )
             val textInfo = IslandApi.TextInfo(
-                turnAnim = true,
+                turnAnim = false,
                 showHighlightColor = false,
-                content = "绳匠阁下，冒昧的打扰您了",
                 title = "莱卡恩"
             )
             val textInfoa = IslandApi.TextInfo(
-                isTitleDigit = true,
-                turnAnim = true,
+                isTitleDigit = false,
+                turnAnim = false,
                 showHighlightColor = true,
-                title = "绳匠阁下，冒昧的打扰您了"
+                title = "绳匠阁下"
             )
-            val a = IslandApi.ImageTextInfo(
+            val a = IslandApi.imageTextInfo(
                 textInfo = textInfo,
                 type = 1,
                 picInfo = pic
             )
-            val b = IslandApi.ImageTextInfo(
-                textInfo = textInfoa,
+            val b = IslandApi.imageTextInfo(
                 type = 2,
-                picInfo = pic
+                textInfo = textInfoa,
+                picInfo = pic1
             )
 
-            val bigIslandArea = IslandApi.BigIslandArea(
+            val bigIslandArea = IslandApi.bigIslandArea(
                 imageTextInfoLeft = a,
-                imageTextInfoRight = b,
-                textInfo = textInfo
+//                imageTextInfoRight = b,
+               sameWidthDigitInfo = IslandApi.sameWidthDigitInfo(
+                   timeInfo = timeout,
+                   content = "过去了",
+                   showHighlightColor = true
+               )
+//                progressTextInfo = IslandApi.ProgressTextInfo(
+//                    textInfo = textInfoa,
+//                    progressInfo = IslandApi.ProgressInfo(
+//                        colorReach = "#FA5FFF",
+//                        colorUnReach = "#FFFABC",
+//                        progress = 56,
+//                    )
+//                ),
             )
             val smallIslandArea = IslandApi.SmallIslandArea(
-                picInfo = pic
+                combinePicInfo = IslandApi.combinePicInfo(
+                    picInfo = pic,
+                    smallPicInfo = JSONObject(),
+                    progressInfo = IslandApi.progressInfo(
+                        colorReach = "#FA5FFF",
+                        colorUnReach = "#FFFABC",
+                        progress = 33,
+                    )
+                )
             )
 
             val islandTemplate = IslandApi.IslandTemplate(
@@ -288,11 +333,12 @@ class MainActivity : ComponentActivity() {
                 smallIslandArea = smallIslandArea,
                 expandedTime = 300
             )
-            val focus = focusApi.senddiyFocus(
+            val focus = focusApi.sendDiyFocus(
                 rv = remoteViews,
                 rvNight = remoteViews,
                 island = islandTemplate,
                 ticker = "绳匠阁下，冒昧的打扰您了",
+                outEffectSrc = "charger_light_wave",
                 enableFloat = false,
                 picticker = Icon.createWithResource(this,R.drawable.lycaon_icon),
                 addpics = pics)
