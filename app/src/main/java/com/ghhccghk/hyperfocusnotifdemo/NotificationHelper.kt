@@ -1,13 +1,12 @@
+package com.ghhccghk.hyperfocusnotifdemo
+
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
-import android.content.Intent
 import android.os.Build
-import android.widget.TextView
 import androidx.core.app.NotificationCompat
-import androidx.core.app.NotificationManagerCompat
 import com.ghhccghk.hyperfocusnotifdemo.R
 
 class NotificationHelper(private val context: Context) {
