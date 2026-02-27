@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.widget.RemoteViews
 import androidx.activity.ComponentActivity
@@ -14,10 +15,15 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.RequiresPermission
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.dynamicDarkColorScheme
+import androidx.compose.material3.dynamicLightColorScheme
+import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
@@ -45,7 +51,16 @@ class MainActivity : ComponentActivity() {
         time = System.currentTimeMillis()
 
         setContent {
-            MainScreen(this, focusApi, time)
+            MaterialTheme(
+                colorScheme = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    if (isSystemInDarkTheme()) dynamicDarkColorScheme(LocalContext.current)
+                    else dynamicLightColorScheme(LocalContext.current)
+                } else {
+                    if (isSystemInDarkTheme()) darkColorScheme() else lightColorScheme()
+                })
+            {
+                MainScreen(this, focusApi, time)
+            }
         }
     }
 }
